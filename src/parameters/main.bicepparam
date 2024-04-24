@@ -1,13 +1,10 @@
 using '../main.bicep'
 
-param metadata = {
-  subscriptionId: ''
-  resourceGroups: [
-    {
-      name: ''
-      location: ''
-      resources: {}
-      tags: {}
-    }
-  ]
-}
+param locations = [
+  'francecentral'
+  'germanywestcentral'
+]
+
+param project = 'msc'
+
+param application = true

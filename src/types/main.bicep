@@ -4,14 +4,8 @@
 
 @export()
 type metadata = {
-  subscriptionId: string
-  resourceGroups: resourceGroup[]
-}
-
-@export()
-type resourceGroup = {
-  name: string
+  project: string
   location: string
-  tags: object
-  resources: object[]
+  domains: array?
+  application: bool
 }

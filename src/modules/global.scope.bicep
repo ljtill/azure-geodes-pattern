@@ -16,20 +16,21 @@ targetScope = 'subscription'
 // ---------
 
 resource group 'Microsoft.Resources/resourceGroups@2023-07-01' = {
-  name: resourceGroup.name
-  location: resourceGroup.location
+  name: functions.getName(metadata.project, 'global', metadata.location, 'resourceGroup', null)
+  location: metadata.location
   properties: {}
-  tags: resourceGroup.tags
+  tags: tags
 }
 
 // -------
 // Modules
 // -------
 
-module resources './main.resources.bicep' = {
+module resources './global.resources.bicep' = {
   scope: group
   params: {
-    resources: resourceGroup.resources
+    metadata: metadata
+    tags: tags
   }
 }
 
@@ -37,4 +38,5 @@ module resources './main.resources.bicep' = {
 // Parameters
 // ----------
 
-param resourceGroup types.resourceGroup
+param metadata types.metadata
+param tags object
