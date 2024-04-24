@@ -17,11 +17,8 @@
     "dynamicTypeLoading": true,
     "extensibility": true,
     "optionalModuleNames": true,
-    "resourceDerivedTypes": true,
-    "resourceTypedParamsAndOutputs": true,
     "sourceMapping": true,
-    "symbolicNameCodegen": true,
-    "userDefinedFunctions": true
+    "symbolicNameCodegen": true
   },
   "moduleAliases": {
     "ts": {},
