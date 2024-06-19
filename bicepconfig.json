@@ -6,6 +6,9 @@
       "rules": {
         "no-unused-params": {
           "level": "off"
+        },
+        "use-recent-api-versions": {
+          "level": "info"
         }
       }
     }
@@ -14,11 +17,8 @@
     "currentProfile": "AzureCloud"
   },
   "experimentalFeaturesEnabled": {
-    "dynamicTypeLoading": true,
     "extensibility": true,
-    "optionalModuleNames": true,
-    "sourceMapping": true,
-    "symbolicNameCodegen": true
+    "optionalModuleNames": true
   },
   "moduleAliases": {
     "ts": {},
