@@ -4,6 +4,27 @@ This repository provides insights into implementing [Geodes](https://learn.micro
 
 ![Architecture](./eng/images/architecture.png)
 
+## Getting Started
+
+Initiate authentication into the Azure CLI and then choose the preferred subscription.
+
+```bash
+az login
+az account -s '{Subscription}'
+```
+
+Execute the provided Shell Script to generate a Deployment Stack and create the Azure resources outlined in this repository.
+
+```bash
+./eng/scripts/create.sh
+```
+
+Execute the given Shell Script to remove the Azure resources deployed through this repository; this will delete the Deployment Stack along with its associated resources.
+
+```bash
+./eng/scripts/delete.sh
+```
+
 ## Repository Structure
 
 In the `src/` directory, you'll find the following components:
