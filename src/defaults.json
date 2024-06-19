@@ -48,6 +48,7 @@
     "resourceTypes": {
         "resourceGroup": "rsg",
         "virtualNetwork": "vnt",
+        "securityGroup": "sgp",
         "natGateway": "ngw",
         "ipAddress": "pip",
         "managedCluster": "mnc",
