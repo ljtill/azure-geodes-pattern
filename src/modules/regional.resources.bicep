@@ -115,27 +115,27 @@ resource controller 'Microsoft.ServiceNetworking/trafficControllers@2023-11-01' 
 }
 
 resource frontend 'Microsoft.ServiceNetworking/trafficControllers/frontends@2023-11-01' = {
-    name: 'default'
+  name: 'default'
   // name: functions.getResourceName(metadata.project, 'region', metadata.location, 'frontend', null)
   parent: controller
-    location: metadata.location
-    properties: {}
-  }
+  location: metadata.location
+  properties: {}
+}
 
 // TODO: Implement multiple associations
 
 resource association 'Microsoft.ServiceNetworking/trafficControllers/associations@2023-11-01' = {
-    name: 'default'
+  name: 'default'
   // name: functions.getResourceName(metadata.project, 'stamp', metadata.location, 'assocation', null)
   parent: controller
-    location: metadata.location
-    properties: {
-      associationType: 'subnets'
-      subnet: {
-        id: resourceId('Microsoft.Network/virtualNetworks/subnets', network.name, 'alb-subnet')
-      }
+  location: metadata.location
+  properties: {
+    associationType: 'subnets'
+    subnet: {
+      id: resourceId('Microsoft.Network/virtualNetworks/subnets', network.name, 'alb-subnet')
     }
   }
+}
 
 // Kubernetes Service
 
@@ -292,22 +292,31 @@ module controllerModule '../applications/cluster.controller.bicep' = {
 
 module applicationModule '../applications/cluster.application.bicep' = if (metadata.application == true) {
   name: functions.getDeploymentName('application')
-    params: {
-      kubeConfig: cluster.listClusterAdminCredential().kubeconfigs[0].value
-      metadata: metadata
-      trafficController: {
-        id: controller.id
-        frontend: {
+  params: {
+    kubeConfig: cluster.listClusterAdminCredential().kubeconfigs[0].value
+    metadata: metadata
+    trafficController: {
+      id: controller.id
+      frontend: {
         name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'frontend', null)
-        }
       }
     }
-    dependsOn: [controllerModule]
   }
+  dependsOn: [controllerModule]
+}
 
 // ----------
 // Parameters
 // ----------
 
+@description('The metadata for the deployment.')
 param metadata types.metadata
+
+@description('The tags to apply to all resources')
 param tags object
+
+// -------
+// Outputs
+// -------
+
+output domain string = frontend.properties.fqdn

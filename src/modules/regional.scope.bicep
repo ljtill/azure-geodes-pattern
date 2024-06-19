@@ -39,5 +39,14 @@ module resources './regional.resources.bicep' = {
 // Parameters
 // ----------
 
+@description('The metadata for the deployment.')
 param metadata types.metadata
+
+@description('The tags to apply to all resources')
 param tags object
+
+// -------
+// Outputs
+// -------
+
+output domain string = resources.outputs.domain

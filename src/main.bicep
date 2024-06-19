@@ -17,6 +17,7 @@ targetScope = 'subscription'
 
 module regions './modules/regional.scope.bicep' = [
   for (location, index) in locations: {
+    name: functions.getDeploymentName('regions-${index}')
     params: {
       metadata: {
         location: location
