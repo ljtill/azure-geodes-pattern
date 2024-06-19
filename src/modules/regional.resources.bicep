@@ -17,7 +17,7 @@ targetScope = 'resourceGroup'
 
 // Virtual Network
 
-resource network 'Microsoft.Network/virtualNetworks@2023-09-01' = {
+resource network 'Microsoft.Network/virtualNetworks@2023-11-01' = {
   name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'virtualNetwork', null)
   location: metadata.location
   properties: {
@@ -74,7 +74,7 @@ resource securityGroup 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
 
 // Public IP
 
-resource ipAddress 'Microsoft.Network/publicIPAddresses@2023-09-01' = {
+resource ipAddress 'Microsoft.Network/publicIPAddresses@2023-11-01' = {
   name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'ipAddress', null)
   location: metadata.location
   sku: {
@@ -89,7 +89,7 @@ resource ipAddress 'Microsoft.Network/publicIPAddresses@2023-09-01' = {
 
 // NAT Gateway
 
-resource gateway 'Microsoft.Network/natGateways@2023-09-01' = {
+resource gateway 'Microsoft.Network/natGateways@2023-11-01' = {
   name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'natGateway', null)
   location: metadata.location
   sku: {
@@ -112,15 +112,22 @@ resource controller 'Microsoft.ServiceNetworking/trafficControllers@2023-11-01' 
   location: metadata.location
   properties: {}
   tags: tags
-  resource frontend 'frontends' = {
+}
+
+resource frontend 'Microsoft.ServiceNetworking/trafficControllers/frontends@2023-11-01' = {
     name: 'default'
-    // name: functions.getName(metadata.project, 'regional', metadata.location, 'frontend', null)
+  // name: functions.getResourceName(metadata.project, 'region', metadata.location, 'frontend', null)
+  parent: controller
     location: metadata.location
     properties: {}
   }
-  resource associations 'associations' = {
+
+// TODO: Implement multiple associations
+
+resource association 'Microsoft.ServiceNetworking/trafficControllers/associations@2023-11-01' = {
     name: 'default'
-    // name: functions.getName(metadata.project, 'regional', metadata.location, 'assocation', null)
+  // name: functions.getResourceName(metadata.project, 'stamp', metadata.location, 'assocation', null)
+  parent: controller
     location: metadata.location
     properties: {
       associationType: 'subnets'
@@ -129,11 +136,10 @@ resource controller 'Microsoft.ServiceNetworking/trafficControllers@2023-11-01' 
       }
     }
   }
-}
 
 // Kubernetes Service
 
-resource cluster 'Microsoft.ContainerService/managedClusters@2024-01-02-preview' = {
+resource cluster 'Microsoft.ContainerService/managedClusters@2024-03-02-preview' = {
   name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'managedCluster', null)
   location: metadata.location
   sku: {
