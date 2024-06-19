@@ -15,6 +15,25 @@ targetScope = 'resourceGroup'
 // Resources
 // ---------
 
+// Cosmos DB
+
+resource database 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
+  name: functions.getResourceName(metadata.project, 'global', metadata.location, 'cosmosDb', null)
+  location: metadata.location
+  kind: 'GlobalDocumentDB'
+  properties: {
+    databaseAccountOfferType: 'Standard'
+    enableMultipleWriteLocations: true
+    locations: [
+      for (location, index) in metadata.locations!: {
+        locationName: location
+        isZoneRedundant: false
+        failoverPriority: index
+      }
+    ]
+  }
+}
+
 // Managed Prometheus
 
 // TODO: Implement
