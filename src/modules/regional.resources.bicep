@@ -281,7 +281,7 @@ resource gatewayAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' 
 // Modules
 // -------
 
-module controllerModule './cluster.controller.bicep' = {
+module controllerModule '../applications/cluster.controller.bicep' = {
   name: functions.getDeploymentName('controller')
   params: {
     kubeConfig: cluster.listClusterAdminCredential().kubeconfigs[0].value
@@ -290,6 +290,7 @@ module controllerModule './cluster.controller.bicep' = {
   dependsOn: [extension]
 }
 
+module applicationModule '../applications/cluster.application.bicep' = if (metadata.application == true) {
   name: functions.getDeploymentName('application')
     params: {
       kubeConfig: cluster.listClusterAdminCredential().kubeconfigs[0].value

@@ -41,8 +41,8 @@ resource service 'core/Service@v1' = {
       {
         name: 'http'
         protocol: 'TCP'
-        port: 8080
-        targetPort: 3000
+        port: 3000
+        targetPort: '3000'
       }
     ]
   }
@@ -149,7 +149,7 @@ resource route 'gateway.networking.k8s.io/HTTPRoute@v1' = {
         backendRefs: [
           {
             name: 'backend'
-            port: 8080
+            port: 3000
             weight: 100
           }
         ]
