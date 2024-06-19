@@ -16,7 +16,7 @@ targetScope = 'subscription'
 // ---------
 
 resource group 'Microsoft.Resources/resourceGroups@2023-07-01' = {
-  name: functions.getName(metadata.project, 'regional', metadata.location, 'resourceGroup', null)
+  name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'resourceGroup', null)
   location: metadata.location
   properties: {}
   tags: tags
@@ -27,6 +27,7 @@ resource group 'Microsoft.Resources/resourceGroups@2023-07-01' = {
 // -------
 
 module resources './regional.resources.bicep' = {
+  name: functions.getDeploymentName('resources')
   scope: group
   params: {
     metadata: metadata

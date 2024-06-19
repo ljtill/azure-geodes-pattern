@@ -29,7 +29,11 @@ targetScope = 'resourceGroup'
 // TODO: Add registry access for clusters
 
 resource registry 'Microsoft.ContainerRegistry/registries@2023-11-01-preview' = {
-  name: replace(functions.getName(metadata.project, 'global', metadata.location, 'containerRegistry', null), '-', '')
+  name: replace(
+    functions.getResourceName(metadata.project, 'global', metadata.location, 'containerRegistry', null),
+    '-',
+    ''
+  )
   location: metadata.location
   sku: {
     name: 'Premium'
@@ -42,8 +46,8 @@ resource registry 'Microsoft.ContainerRegistry/registries@2023-11-01-preview' = 
 
 // Front Door
 
-resource front 'Microsoft.Cdn/profiles@2023-07-01-preview' = {
-  name: functions.getName(metadata.project, 'global', metadata.location, 'frontDoor', null)
+resource front 'Microsoft.Cdn/profiles@2024-02-01' = {
+  name: functions.getResourceName(metadata.project, 'global', metadata.location, 'frontDoor', null)
   location: 'global'
   sku: {
     name: 'Standard_AzureFrontDoor'

@@ -18,7 +18,7 @@ targetScope = 'resourceGroup'
 // Virtual Network
 
 resource network 'Microsoft.Network/virtualNetworks@2023-09-01' = {
-  name: functions.getName(metadata.project, 'regional', metadata.location, 'virtualNetwork', null)
+  name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'virtualNetwork', null)
   location: metadata.location
   properties: {
     addressSpace: {
@@ -75,7 +75,7 @@ resource securityGroup 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
 // Public IP
 
 resource ipAddress 'Microsoft.Network/publicIPAddresses@2023-09-01' = {
-  name: functions.getName(metadata.project, 'regional', metadata.location, 'ipAddress', null)
+  name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'ipAddress', null)
   location: metadata.location
   sku: {
     name: 'Standard'
@@ -90,7 +90,7 @@ resource ipAddress 'Microsoft.Network/publicIPAddresses@2023-09-01' = {
 // NAT Gateway
 
 resource gateway 'Microsoft.Network/natGateways@2023-09-01' = {
-  name: functions.getName(metadata.project, 'regional', metadata.location, 'natGateway', null)
+  name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'natGateway', null)
   location: metadata.location
   sku: {
     name: 'Standard'
@@ -108,7 +108,7 @@ resource gateway 'Microsoft.Network/natGateways@2023-09-01' = {
 // Traffic Controller
 
 resource controller 'Microsoft.ServiceNetworking/trafficControllers@2023-11-01' = {
-  name: functions.getName(metadata.project, 'regional', metadata.location, 'trafficController', null)
+  name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'trafficController', null)
   location: metadata.location
   properties: {}
   tags: tags
@@ -134,7 +134,7 @@ resource controller 'Microsoft.ServiceNetworking/trafficControllers@2023-11-01' 
 // Kubernetes Service
 
 resource cluster 'Microsoft.ContainerService/managedClusters@2024-01-02-preview' = {
-  name: functions.getName(metadata.project, 'regional', metadata.location, 'managedCluster', null)
+  name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'managedCluster', null)
   location: metadata.location
   sku: {
     name: 'Base'
@@ -144,8 +144,8 @@ resource cluster 'Microsoft.ContainerService/managedClusters@2024-01-02-preview'
     type: 'SystemAssigned'
   }
   properties: {
-    nodeResourceGroup: functions.getName(metadata.project, 'managed', metadata.location, 'resourceGroup', null)
-    dnsPrefix: functions.getName(metadata.project, 'regional', metadata.location, 'managedCluster', null)
+    nodeResourceGroup: functions.getResourceName(metadata.project, 'managed', metadata.location, 'resourceGroup', null)
+    dnsPrefix: functions.getResourceName(metadata.project, 'regional', metadata.location, 'managedCluster', null)
     agentPoolProfiles: [
       {
         name: 'system'
@@ -226,7 +226,7 @@ resource extension 'Microsoft.KubernetesConfiguration/extensions@2023-05-01' = {
 // Managed Identity
 
 resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-07-31-preview' = {
-  name: functions.getName(metadata.project, 'regional', metadata.location, 'userIdentity', null)
+  name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'userIdentity', null)
   location: metadata.location
   tags: tags
 }
@@ -276,7 +276,7 @@ resource gatewayAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' 
 // -------
 
 module controllerModule './cluster.controller.bicep' = {
-  name: format('controller-${uniqueString('controller', deployment().name)}')
+  name: functions.getDeploymentName('controller')
   params: {
     kubeConfig: cluster.listClusterAdminCredential().kubeconfigs[0].value
     clientId: identity.properties.clientId
@@ -284,16 +284,14 @@ module controllerModule './cluster.controller.bicep' = {
   dependsOn: [extension]
 }
 
-module applicationModule './cluster.application.bicep' =
-  if (metadata.application) {
-    name: format('application-${uniqueString('application', deployment().name)}')
+  name: functions.getDeploymentName('application')
     params: {
       kubeConfig: cluster.listClusterAdminCredential().kubeconfigs[0].value
       metadata: metadata
       trafficController: {
         id: controller.id
         frontend: {
-          name: functions.getName(metadata.project, 'regional', metadata.location, 'frontend', null)
+        name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'frontend', null)
         }
       }
     }

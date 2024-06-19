@@ -24,9 +24,14 @@ func locationAlias(location string) string => '-${loadDefaults().locations[locat
 
 func resourceTypeAlias(resourceType string) string => '-${loadDefaults().resourceTypes[resourceType]}'
 
+// Deployments
+
+@export()
+func getDeploymentName(name string) string => format('${name}-${uniqueString('${name}', deployment().name)}')
+
 // Names
 // See defaults.json for allowed values
 
 @export()
-func getName(project string, deploymentScope string, location string, resourceType string, count string?) string =>
+func getResourceName(project string, deploymentScope string, location string, resourceType string, count string?) string =>
   '${toLower(project)}${deploymentScopeAlias(deploymentScope)}${locationAlias(location!)}${resourceTypeAlias(resourceType)}${count == null ? '' : '-${count!}'}'
