@@ -2,6 +2,8 @@
 
 This repository provides insights into implementing [Geodes](https://learn.microsoft.com/azure/architecture/patterns/geodes) pattern in Microsoft Azure through [Bicep](https://learn.microsoft.com/azure/azure-resource-manager/bicep/overview), following best practices for ensuring application resilience and high availability.
 
+---
+
 ![Architecture](./eng/images/architecture.png)
 
 ## Getting Started
@@ -34,3 +36,9 @@ In the `src/` directory, you'll find the following components:
 - `modules/`:  In this directory, you'll find reusable scope and resource modules.
 - `parameters/`: This directory holds parameter files for environment-specific configurations.
 - `types/`: Contains type definitions for both templates and parameter files.
+
+---
+
+## Code Structure
+
+![Structure](./eng/images/structure.png)
