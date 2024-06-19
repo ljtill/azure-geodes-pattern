@@ -25,7 +25,7 @@ resource database 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
     databaseAccountOfferType: 'Standard'
     enableMultipleWriteLocations: true
     locations: [
-      for (location, index) in metadata.locations!: {
+      for (location, index) in locations!: {
         locationName: location
         isZoneRedundant: false
         failoverPriority: index
@@ -141,5 +141,11 @@ resource route 'Microsoft.Cdn/profiles/afdEndpoints/routes@2024-02-01' = {
 // Parameters
 // ----------
 
+@description('The metadata for the deployment.')
 param metadata types.metadata
+
+@description('The list of locations to deploy resources to.')
+param locations array
+
+@description('The tags to apply to all resources')
 param tags object
