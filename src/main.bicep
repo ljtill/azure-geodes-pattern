@@ -46,9 +46,9 @@ module global './modules/global.scope.bicep' = {
 // Variables
 // ---------
 
-var tags = {
-  Owner: 'Lyon Till'
-}
+// Determines if the demo application
+// should be installed in the clusters.
+var application = false
 
 // ----------
 // Parameters
@@ -60,5 +60,5 @@ param project string
 @description('The locations to deploy resources')
 param locations array
 
-@description('Installation of test-infra application')
-param application bool
+@description('The tags to apply to all resources')
+param tags object

@@ -1,10 +1,9 @@
 using '../main.bicep'
 
+param project = ''
+
 param locations = [
-  'francecentral'
-  'germanywestcentral'
+  'uksouth'
 ]
 
-param project = 'msc'
-
-param application = true
+param tags = {}
