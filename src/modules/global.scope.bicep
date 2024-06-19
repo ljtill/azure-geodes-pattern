@@ -31,6 +31,7 @@ module resources './global.resources.bicep' = {
   scope: group
   params: {
     metadata: metadata
+    locations: locations
     tags: tags
   }
 }
@@ -39,5 +40,11 @@ module resources './global.resources.bicep' = {
 // Parameters
 // ----------
 
+@description('The metadata for the deployment.')
 param metadata types.metadata
+
+@description('The list of locations to deploy resources to.')
+param locations array
+
+@description('The tags to apply to all resources')
 param tags object

@@ -28,16 +28,19 @@ module regions './modules/regional.scope.bicep' = [
   }
 ]
 
-// module global './modules/global.scope.bicep' = {
-//   params: {
-//     metadata: {
-//       location: 'swedencentral'
-//       project: project
-//       domains: ['bing.com']
-//     }
-//     tags: tags
-//   }
-// }
+module global './modules/global.scope.bicep' = {
+  name: functions.getDeploymentName('global')
+  params: {
+    metadata: {
+      location: 'swedencentral'
+      project: project
+      domains: [for (region, index) in locations: regions[index].outputs.domain]
+      application: application
+    }
+    locations: locations
+    tags: tags
+  }
+}
 
 // ---------
 // Variables
