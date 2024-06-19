@@ -34,6 +34,9 @@ resource network 'Microsoft.Network/virtualNetworks@2023-09-01' = {
           natGateway: {
             id: gateway.id
           }
+          networkSecurityGroup: {
+            id: securityGroup.id
+          }
         }
       }
       {
@@ -48,9 +51,23 @@ resource network 'Microsoft.Network/virtualNetworks@2023-09-01' = {
               }
             }
           ]
+          networkSecurityGroup: {
+            id: securityGroup.id
+          }
         }
       }
     ]
+  }
+  tags: tags
+}
+
+// Security Group
+
+resource securityGroup 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
+  name: functions.getResourceName(metadata.project, 'regional', metadata.location, 'securityGroup', null)
+  location: metadata.location
+  properties: {
+    securityRules: []
   }
   tags: tags
 }
