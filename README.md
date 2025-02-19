@@ -12,9 +12,7 @@ In this project, you will find examples, modules, and functions that follow thes
 
 ## Prerequisites
 
-- **Azure CLI:** Ensure you have the Azure CLI installed.
 - **Azure Subscription:** You need an active Azure subscription.
-- **Bicep:** Familiarity with Bicep and ARM template deployments is beneficial.
 - **Dev Container:** A dev container configuration is included in this repository to provide a consistent and isolated development environment. It is recommended that you use the dev container to ensure compatibility with the project's dependencies and tools.
 
 ## Getting Started
