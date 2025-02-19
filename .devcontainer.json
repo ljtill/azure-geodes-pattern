@@ -1,5 +1,5 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/base:jammy",
+    "image": "mcr.microsoft.com/devcontainers/base:noble",
     "features": {
         "ghcr.io/devcontainers/features/azure-cli:latest": {},
         "ghcr.io/ljtill/features/bicep:latest": {},
