@@ -17,7 +17,7 @@ targetScope = 'resourceGroup'
 
 // Cosmos DB
 
-resource database 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
+resource database 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = {
   name: functions.getResourceName(metadata.project, 'global', metadata.location, 'cosmosDb', null)
   location: metadata.location
   kind: 'GlobalDocumentDB'
@@ -47,7 +47,7 @@ resource database 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
 // TODO: Enable registry geo-replication
 // TODO: Add registry access for clusters
 
-resource registry 'Microsoft.ContainerRegistry/registries@2023-11-01-preview' = {
+resource registry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   name: replace(
     functions.getResourceName(metadata.project, 'global', metadata.location, 'containerRegistry', null),
     '-',
@@ -65,7 +65,7 @@ resource registry 'Microsoft.ContainerRegistry/registries@2023-11-01-preview' = 
 
 // Front Door
 
-resource front 'Microsoft.Cdn/profiles@2024-02-01' = {
+resource front 'Microsoft.Cdn/profiles@2024-09-01' = {
   name: functions.getResourceName(metadata.project, 'global', metadata.location, 'frontDoor', null)
   location: 'global'
   sku: {
@@ -76,7 +76,7 @@ resource front 'Microsoft.Cdn/profiles@2024-02-01' = {
 
 // Origin Group
 
-resource group 'Microsoft.Cdn/profiles/originGroups@2024-02-01' = {
+resource group 'Microsoft.Cdn/profiles/originGroups@2024-09-01' = {
   name: 'default'
   parent: front
   properties: {
@@ -92,8 +92,8 @@ resource group 'Microsoft.Cdn/profiles/originGroups@2024-02-01' = {
     }
   }
 }
-resource origins 'Microsoft.Cdn/profiles/originGroups/origins@2024-02-01' = [
-  for domain in metadata.domains!: {
+resource origins 'Microsoft.Cdn/profiles/originGroups/origins@2024-09-01' = [
+  for domain in metadata.?domains!: {
     name: split(domain, '.')[0]
     parent: group
     properties: {
@@ -108,7 +108,7 @@ resource origins 'Microsoft.Cdn/profiles/originGroups/origins@2024-02-01' = [
 
 // Endpoints
 
-resource endpoint 'Microsoft.Cdn/profiles/afdEndpoints@2024-02-01' = {
+resource endpoint 'Microsoft.Cdn/profiles/afdEndpoints@2024-09-01' = {
   name: 'default'
   parent: front
   location: 'global'
@@ -116,7 +116,7 @@ resource endpoint 'Microsoft.Cdn/profiles/afdEndpoints@2024-02-01' = {
     enabledState: 'Enabled'
   }
 }
-resource route 'Microsoft.Cdn/profiles/afdEndpoints/routes@2024-02-01' = {
+resource route 'Microsoft.Cdn/profiles/afdEndpoints/routes@2024-09-01' = {
   name: 'default'
   parent: endpoint
   properties: {
