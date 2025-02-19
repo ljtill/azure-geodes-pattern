@@ -57,6 +57,7 @@
         "frontDoor": "fdr",
         "frontend": "ftd",
         "trafficController": "tfc",
-        "assocation": "asc"
+        "assocation": "asc",
+        "cosmosDb": "cdb"
     }
 }
