@@ -5,11 +5,11 @@
 import * as functions from '../functions/main.bicep'
 import * as types from '../types/main.bicep'
 
-// ---------
-// Providers
-// ---------
+// ----------
+// Extensions
+// ----------
 
-provider kubernetes with {
+extension kubernetes with {
   kubeConfig: kubeConfig
   namespace: 'default'
 }
