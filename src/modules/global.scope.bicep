@@ -15,7 +15,7 @@ targetScope = 'subscription'
 // Resources
 // ---------
 
-resource group 'Microsoft.Resources/resourceGroups@2024-03-01' = {
+resource group 'Microsoft.Resources/resourceGroups@2024-11-01' = {
   name: functions.getResourceName(metadata.project, 'global', metadata.location, 'resourceGroup', null)
   location: metadata.location
   properties: {}
